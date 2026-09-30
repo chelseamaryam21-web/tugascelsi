@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=\, initial-scale=1.0">
+    <title>Document</title>
+    <script src="P3_060.js">
+    </script>
+</head>
+<body>
+    <h1>Daftar Tugas - P3_060</h1>
+
+    <input type="text" id="inputTugas" placeholder="Masukkan Tugas">
+    <button onclick="tambahTugas()">Tambah Daftar Tugas</button>
+
+    <button onclick="tampilkanTugas()">Tampilkan Daftar Tugas</button>
+
+    <ul id="listTugas" style="display: none;"></ul>
+
+    <script>
+        let daftarTugas = [];
+        function tambahTugas() {
+            const input = document.getElementById('inputTugas');
+            const tugas = input.value.trim();
+
+            if (tugas){
+                daftarTugas.push(tugas);
+                input.value = '';
+                alert('Tugas berhasil ditambahkan!');
+            } else {
+                alert('Masukkan tugas yang valid!');
+            }
+        }
+    </script>
+</body>
+</html>

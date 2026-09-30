@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Statistik Array</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    input {
+      padding: 8px;
+      width: 60%;
+    }
+    button {
+      padding: 8px 16px;
+      cursor: pointer;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Hitung Statistik Array</h2>
+  <p>Masukkan angka dipisahkan dengan koma.</p>
+  <p><em>Contoh: 10, 20, 30, 40, 50</em></p>
+
+  <div>
+    <input type="text" id="inputAngka" placeholder="Masukkan angka...">
+    <button onclick="prosesData()">Hitung</button>
+  </div>
+
+  <h3>Hasil:</h3>
+  <div id="hasil"></div>
+
+  <script>
+    function prosesData() {
+      const inputStr = document.getElementById("inputAngka").value.trim();
+      const hasilDiv = document.getElementById("hasil");
+
+      // Validasi jika input kosong
+      if (!inputStr) {
+        alert("Masukkan angka terlebih dahulu!");
+        return;
+      }
+
+      // Memisah string, menghapus spasi di setiap item, dan mengonversi ke Angka
+      const array = inputStr
+        .split(",")
+        .map(item => Number(item.trim()))
+        .filter(item => !isNaN(item)); // Mengabaikan entri non-angka
+
+      // Validasi jika tidak ada angka valid yang tersisa
+      if (array.length === 0) {
+        hasilDiv.innerHTML = "<span class='error'>Input tidak valid. Masukkan angka yang dipisahkan koma.</span>";
+        return;
+      }
+
+      // Perhitungan statistik
+      const min = Math.min(...array);
+      const max = Math.max(...array);
+      const total = array.reduce((acc, curr) => acc + curr, 0);
+      const rataRata = total / array.length;
+
+      // Menampilkan hasil
+      hasilDiv.innerHTML = `
+        <strong>Nilai Minimum:</strong> ${min}<br>
+        <strong>Nilai Maksimum:</strong> ${max}<br>
+        <strong>Nilai Rata-rata:</strong> ${rataRata.toFixed(20)}
+      `;
+    }
+  </script>
+
+</body>
+</html>
