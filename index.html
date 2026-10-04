@@ -1,256 +1,322 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Tugas PBF</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #fff1f6;
-            --bg-glow-1: #ffd3e4;
-            --bg-glow-2: #f1dcff;
-            --surface: #ffffff;
-            --ink: #4b1d36;
-            --muted: #9a6b84;
-            --line: #ffd0e2;
-            --accent: #e6408a;
-            --accent-2: #ff8fbc;
-            --accent-soft: #ffe3ee;
-            --shadow: rgba(230, 64, 138, 0.14);
-        }
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg: #1f0f19;
-                --bg-glow-1: #45162f;
-                --bg-glow-2: #2f1845;
-                --surface: #2b1524;
-                --ink: #ffe8f1;
-                --muted: #d1a1b9;
-                --line: #4d2340;
-                --accent: #ff7ab3;
-                --accent-2: #ffa6cb;
-                --accent-soft: #46203a;
-                --shadow: rgba(0, 0, 0, 0.35);
-            }
-        }
-        * { box-sizing: border-box; }
-        body {
-            margin: 0;
-            padding: 56px 20px 72px;
-            background:
-                radial-gradient(circle at 12% 8%, var(--bg-glow-1) 0, transparent 38%),
-                radial-gradient(circle at 92% 22%, var(--bg-glow-2) 0, transparent 34%),
-                radial-gradient(circle at 50% 100%, var(--bg-glow-1) 0, transparent 40%),
-                var(--bg);
-            background-attachment: fixed;
-            color: var(--ink);
-            font-family: "Nunito", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
-            line-height: 1.55;
-        }
-        .wrap { max-width: 880px; margin: 0 auto; }
-
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        h1 {
-            margin: 0 0 10px;
-            font-family: "Pacifico", "Brush Script MT", cursive;
-            font-weight: 400;
-            font-size: clamp(2rem, 6vw, 3.1rem);
-            line-height: 1.2;
-            background: linear-gradient(90deg, var(--accent), var(--accent-2));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        header p {
-            display: inline-block;
-            margin: 0;
-            padding: 6px 18px;
-            color: var(--muted);
-            font-weight: 600;
-            background: var(--surface);
-            border: 1.5px dashed var(--accent-2);
-            border-radius: 999px;
-        }
-
-        .folder {
-            position: relative;
-            background: var(--surface);
-            border: 2px solid var(--line);
-            border-radius: 28px;
-            padding: 24px 26px 26px;
-            margin-bottom: 26px;
-            box-shadow: 0 10px 30px var(--shadow);
-        }
-        .folder::after {
-            content: "♡";
-            position: absolute;
-            top: -14px;
-            right: 26px;
-            width: 30px;
-            height: 30px;
-            display: grid;
-            place-items: center;
-            background: var(--accent);
-            color: #fff;
-            border-radius: 50%;
-            font-size: 1rem;
-            box-shadow: 0 4px 10px var(--shadow);
-        }
-        .folder-head {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            margin-bottom: 16px;
-            padding-bottom: 14px;
-            border-bottom: 2px dotted var(--line);
-        }
-        .folder-head h2 {
-            margin: 0;
-            font-size: 1.15rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .folder-head h2::before {
-            content: "♥";
-            color: var(--accent);
-            font-size: 1.1rem;
-        }
-        .count {
-            font-size: 0.82rem;
-            color: #fff;
-            background: linear-gradient(135deg, var(--accent), var(--accent-2));
-            padding: 4px 14px;
-            border-radius: 999px;
-            font-weight: 700;
-            white-space: nowrap;
-        }
-        .links {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 12px;
-        }
-        .links a {
-            display: block;
-            height: 100%;
-            padding: 14px 16px;
-            background: var(--accent-soft);
-            border: 2px solid transparent;
-            border-radius: 18px;
-            color: var(--ink);
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.97rem;
-            transition: transform .18s, border-color .18s, box-shadow .18s;
-        }
-        .links a small {
-            display: block;
-            margin-top: 3px;
-            font-weight: 400;
-            font-size: 0.78rem;
-            color: var(--muted);
-            word-break: break-all;
-        }
-        .links a:hover {
-            transform: translateY(-3px);
-            border-color: var(--accent-2);
-            box-shadow: 0 8px 18px var(--shadow);
-        }
-        .links a:focus-visible {
-            outline: 3px solid var(--accent);
-            outline-offset: 2px;
-        }
-        footer {
-            text-align: center;
-            color: var(--muted);
-            font-weight: 600;
-            font-size: 0.9rem;
-            margin-top: 34px;
-        }
-        footer span { color: var(--accent); }
-        @media (prefers-reduced-motion: reduce) {
-            .links a { transition: none; }
-            .links a:hover { transform: none; }
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aset Kampus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<style>
+:root{--bs-primary:#e0527f;--bs-primary-rgb:224,82,127;--bs-body-font-family:'DM Sans',system-ui,sans-serif;--ink:#3a2a32;--mut:#8b7580;--rose:#e0527f;--line:#f2dde5}
+body{background:#fff8fa;color:var(--ink);font-size:.93rem}
+h1,h2,.brand,.modal-title{font-family:'Fraunces',Georgia,serif}
+.btn{border-radius:2rem;font-weight:500;padding:.5rem 1.2rem}
+.btn-primary{--bs-btn-bg:#e0527f;--bs-btn-border-color:#e0527f;--bs-btn-hover-bg:#c93f6c;--bs-btn-hover-border-color:#c93f6c;--bs-btn-active-bg:#b5345d;--bs-btn-active-border-color:#b5345d;--bs-btn-disabled-bg:#e0527f;--bs-btn-disabled-border-color:#e0527f}
+.btn-light{--bs-btn-bg:#fff;--bs-btn-border-color:#f2dde5}
+.form-control,.form-select{border-radius:.9rem;border-color:#ecd5de;padding:.55rem .85rem}
+.form-control:focus,.form-select:focus{border-color:#e0527f;box-shadow:0 0 0 .22rem rgba(224,82,127,.14)}
+.form-label{font-size:.82rem;color:var(--mut);font-weight:500}
+.top{border-bottom:1px solid var(--line);background:rgba(255,248,250,.9);backdrop-filter:blur(8px);position:sticky;top:0;z-index:10}
+.brand{display:flex;align-items:center;gap:.5rem;color:var(--ink);text-decoration:none;font-size:1.3rem;font-weight:600}
+.brand i{color:var(--rose)}
+.seg{display:flex;gap:.25rem;background:#fff;border:1px solid var(--line);border-radius:2rem;padding:.25rem;overflow-x:auto;max-width:100%}
+.seg a{display:flex;align-items:center;gap:.45rem;padding:.45rem 1rem;border-radius:2rem;color:var(--mut);text-decoration:none;font-weight:500;white-space:nowrap;text-transform:capitalize}
+.seg a:hover{color:var(--ink)}
+.seg a.active{background:var(--rose);color:#fff}
+.head{display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;align-items:flex-end;padding:2.4rem 0 1.2rem}
+.head h1{font-size:2.2rem;font-weight:500;letter-spacing:-.01em;margin:0}
+.head p{color:var(--mut);margin:.3rem 0 0}
+.toolbar{display:flex;flex-wrap:wrap;gap:.8rem;align-items:center;margin-bottom:1.2rem}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip{background:#fde8ef;color:#a8365b;border-radius:2rem;padding:.3rem .85rem;font-size:.82rem}
+.chip:nth-child(2){background:#ece6fb;color:#5b3fb0}.chip:nth-child(3){background:#e1f5ea;color:#2f7a52}
+.chip b{margin-right:.4rem}
+.search{position:relative;width:260px;max-width:100%}
+.search i{position:absolute;left:1rem;top:50%;transform:translateY(-50%);color:#c9a7b5}
+.search input{padding-left:2.5rem;border-radius:2rem}
+.item{background:#fff;border:1px solid var(--line);border-radius:1.3rem;padding:1.2rem;height:100%;display:flex;flex-direction:column;transition:box-shadow .2s,border-color .2s}
+.item:hover{border-color:#f0bccd;box-shadow:0 10px 28px rgba(224,82,127,.09)}
+.item-t{font-size:1.12rem;font-weight:500;margin:0;overflow-wrap:anywhere}
+.item-s{color:var(--mut);font-size:.85rem}
+.mw0{min-width:0}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:.8rem 1rem;margin:1.1rem 0 1rem}
+.meta dt{font-size:.74rem;color:var(--mut);font-weight:400}
+.meta dd{margin:0;font-weight:500;overflow-wrap:anywhere}
+.meta .full{grid-column:1/-1}
+.item-act{margin-top:auto;border-top:1px solid #f7e8ee;padding-top:.8rem;display:flex;justify-content:flex-end;gap:.3rem}
+.ava{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.82rem;flex:none}
+.a0{background:#fde8ef;color:#c93f6c}.a1{background:#ece6fb;color:#6a4cc0}.a2{background:#ffeede;color:#c06a1c}.a3{background:#e1f5ea;color:#2f8a5b}
+.pill{display:inline-flex;align-items:center;gap:.35rem;padding:.2rem .65rem;border-radius:2rem;font-size:.76rem;font-weight:500;white-space:nowrap}
+.pill::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor}
+.pill-success{background:#e1f5ea;color:#2f8a5b}.pill-warning{background:#ffeede;color:#c06a1c}.pill-primary{background:#ece6fb;color:#6a4cc0}.pill-secondary{background:#f3eaee;color:#8b7580}
+.btn-i{width:36px;height:36px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--mut);display:inline-grid;place-items:center;cursor:pointer}
+.btn-i:hover{background:#fde8ef;color:var(--rose)}
+.btn-i-red:hover{background:#fde2e2;color:#c0392b}
+.note{text-align:center;color:var(--mut);padding:4rem 1rem;background:#fff;border:1px dashed #efc9d7;border-radius:1.3rem}
+.foot{text-align:center;color:var(--mut);font-size:.8rem;margin-top:2.4rem}
+.modal-content{border:0;border-radius:1.5rem;box-shadow:0 24px 60px rgba(120,40,70,.18)}
+.modal-header,.modal-footer{border:0}
+.modal-title{font-weight:500;font-size:1.5rem}
+#alerts .alert{border:0;border-radius:1rem}
+</style>
 </head>
 <body>
-    <div class="wrap">
-        <header>
-            <h1>Daftar Halaman Tugas</h1>
-            <p>Chelsea Aurora Maryam &middot; Pemrograman Berbasis Framework (PBF)</p>
-        </header>
-
-        <section class="folder">
-            <div class="folder-head">
-                <h2>Folder W2_060</h2>
-                <span class="count">3 halaman</span>
-            </div>
-            <ul class="links">
-                <li><a href="../W2_060/kalkulator.html">Kalkulator<small>Kalkulator.html</small></a></li>
-                <li><a href="../W2_060/P2.html">P2<small>P2.html</small></a></li>
-                <li><a href="../W2_060/T1.html">T1<small>T1.html</small></a></li>
-            </ul>
-        </section>
-
-        <section class="folder">
-            <div class="folder-head">
-                <h2>Folder W2-P2_060</h2>
-                <span class="count">4 halaman</span>
-            </div>
-            <ul class="links">
-                <li><a href="../W2-P2_060/P3_060.html">P3<small>P3_060.html</small></a></li>
-                <li><a href="../W2-P2_060/P4_060.html">P4<small>P4_060.html</small></a></li>
-                <li><a href="../W2-P2_060/T2_060.html">T2<small>T2_060.html</small></a></li>
-                <li><a href="../W2-P2_060/T3_060.html">T3<small>T3_060.html</small></a></li>
-            </ul>
-        </section>
-
-        <section class="folder">
-            <div class="folder-head">
-                <h2>Folder W2-P3_060</h2>
-                <span class="count">4 halaman</span>
-            </div>
-            <ul class="links">
-                <li><a href="../W2-P3_060/P5_060.html">P5<small>P5_060.html</small></a></li>
-                <li><a href="../W2-P3_060/P6_060.html">P6<small>P6_060.html</small></a></li>
-                <li><a href="../W2-P3_060/T4_060.html">T4<small>T4_060.html</small></a></li>
-                <li><a href="../W2-P3_060/T5_060.html">T5<small>T5_060.html</small></a></li>
-            </ul>
-        </section>
-
-        <section class="folder">
-            <div class="folder-head">
-                <h2>Folder W2-P4_060</h2>
-                <span class="count">1 halaman</span>
-            </div>
-            <ul class="links">
-                <li><a href="../W2-P3_060/P7_060.html">P7<small>P7_060.html</small></a></li>
-            </ul>
-        </section>
-
-        <section class="folder">
-            <div class="folder-head">
-                <h2>Folder Bootstrap 060</h2>
-                <span class="count">1 halaman</span>
-            </div>
-            <ul class="links">
-                <li><a href="../Bootstrap_060/index.html">Bootstrap<small>Bootstrap_060</small></a></li>
-            </ul>
-        </section>
-
-        <footer>Chelsea Aurora Maryam <span>&hearts;</span> 060</footer>
+<header class="top">
+  <div class="container-xl d-flex flex-wrap align-items-center justify-content-between gap-3 py-3">
+    <a class="brand" href="#asset"><i class="bi bi-flower2"></i>Aset Kampus</a>
+    <nav class="seg" id="nav"></nav>
+  </div>
+</header>
+<main class="container-xl pb-5">
+  <div class="head">
+    <div><h1 id="title"></h1><p id="sub"></p></div>
+    <button class="btn btn-primary text-nowrap" id="btnAdd"></button>
+  </div>
+  <div class="toolbar">
+    <div class="chips" id="stats"></div>
+    <div class="d-flex gap-2 ms-auto">
+      <div class="search"><i class="bi bi-search"></i><input id="q" class="form-control" placeholder="Cari data..." aria-label="Cari data"></div>
+      <button class="btn-i" id="btnRefresh" title="Muat ulang" style="border:1px solid var(--line);background:#fff"><i class="bi bi-arrow-clockwise"></i></button>
     </div>
+  </div>
+  <div class="row g-3" id="tbl"></div>
+  <p class="foot">Terhubung ke <span id="base"></span></p>
+</main>
+<div id="alerts"></div>
+
+<div class="modal fade" id="mForm" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <form class="modal-content" id="form">
+      <div class="modal-header"><h2 class="modal-title h5" id="fTitle"></h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button></div>
+      <div class="modal-body"><div class="row g-3" id="fBody"></div></div>
+      <div class="modal-footer"><button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button><button class="btn btn-primary" id="btnSave">Simpan</button></div>
+    </form>
+  </div>
+</div>
+
+<div class="modal fade" id="mDetail" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header"><h2 class="modal-title h5" id="dTitle"></h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button></div>
+      <div class="modal-body" id="dBody"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+const BASE_URL = 'https://api.melangkah.my.id';   // ubah jika alamat API berbeda
+
+const $ = s => document.querySelector(s);
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const today = new Date().toLocaleDateString('sv-SE');
+const rid = r => r.id ?? r.id_asset ?? r.id_mahasiswa;
+const pick = (list, id, fn) => { const x = list.find(r => rid(r) == id); return x ? fn(x) : id; };
+const mhsLabel = r => `${r.nim} - ${r.nama}`;
+
+function badge(v) {
+  const c = {tersedia:'success', baik:'success', dikembalikan:'success', pending:'warning', dipinjam:'primary'}[String(v ?? '').toLowerCase()] || 'secondary';
+  return `<span class="pill pill-${c}">${esc(v)}</span>`;
+}
+
+/* ---------- Konfigurasi modul: kolom tabel & field form ---------- */
+const MOD = {
+  asset: {
+    title:'Master asset', noun:'asset', add:'Tambah asset', icon:'bi-box-seam', path:'asset', idKey:'id', full:true,
+    sub:'Daftar barang yang dapat dipinjam mahasiswa.',
+    stats:d=>[['Jenis asset',d.length,'bi-box-seam'],['Total unit',d.reduce((t,r)=>t+(+r.jumlah||0),0),'bi-stack'],['Tersedia',d.filter(r=>/tersedia/i.test(r.status)&&!/tidak/i.test(r.status)).length,'bi-check2-circle']],
+    cols:[['nama_asset','Nama asset'],['kategori','Kategori'],['jumlah','Jumlah'],['kondisi','Kondisi',r=>badge(r.kondisi)],['lokasi','Lokasi'],['status','Status',r=>badge(r.status)]],
+    fields:[
+      {k:'nama_asset',l:'Nama asset',req:1},
+      {k:'kategori',l:'Kategori',o:['Elektronik','Furnitur','Alat Lab']},
+      {k:'jumlah',l:'Jumlah',t:'number',req:1,d:1},
+      {k:'kondisi',l:'Kondisi',o:['Baik','Rusak ringan','Rusak berat'],d:'Baik'},
+      {k:'lokasi',l:'Lokasi'},
+      {k:'status',l:'Status',o:['Tersedia','Dipinjam','Tidak tersedia'],d:'Tersedia'}]
+  },
+  mahasiswa: {
+    title:'Master mahasiswa', noun:'mahasiswa', add:'Tambah mahasiswa', icon:'bi-people', path:'mahasiswa', idKey:'id', full:true,
+    sub:'Data mahasiswa yang berhak meminjam asset.',
+    stats:d=>[['Total mahasiswa',d.length,'bi-people'],['Jurusan',new Set(d.map(r=>r.jurusan)).size,'bi-mortarboard'],['Angkatan terbaru',Math.max(0,...d.map(r=>+r.angkatan||0))||'-','bi-calendar3']],
+    cols:[['nama','Nama'],['nim','NIM'],['jurusan','Jurusan'],['angkatan','Angkatan'],['email','Email'],['telepon','Telepon']],
+    fields:[
+      {k:'nim',l:'NIM',req:1},
+      {k:'nama',l:'Nama lengkap',req:1},
+      {k:'jurusan',l:'Jurusan'},
+      {k:'angkatan',l:'Angkatan',t:'number'},
+      {k:'email',l:'Email',t:'email'},
+      {k:'telepon',l:'Telepon',t:'tel'}]
+  },
+  peminjaman: {
+    title:'Transaksi peminjaman', noun:'peminjaman', add:'Catat peminjaman', icon:'bi-arrow-left-right', path:'peminjaman', idKey:'id_peminjaman', full:false,
+    sub:'Catat peminjaman baru dan lihat riwayatnya.',
+    stats:d=>[['Total transaksi',d.length,'bi-journal-text'],['Pending',d.filter(r=>/pending/i.test(r.status_peminjaman)).length,'bi-hourglass-split'],['Dikembalikan',d.filter(r=>/dikembalikan/i.test(r.status_peminjaman)).length,'bi-arrow-return-left']],
+    cols:[
+      ['id_mahasiswa','Mahasiswa',r=>esc(r.nama || r.nama_mahasiswa || pick(cache.mahasiswa, r.id_mahasiswa, x => x.nama))],
+      ['id_asset','Asset',r=>esc(r.nama_asset || pick(cache.asset, r.id_asset, a=>a.nama_asset))],
+      ['jumlah','Jumlah'],['tanggal_pinjam','Tgl pinjam'],['tanggal_kembali','Tgl kembali'],
+      ['status_peminjaman','Status',r=>badge(r.status_peminjaman)],['keterangan','Keterangan']],
+    fields:[
+      {k:'id_mahasiswa',l:'Mahasiswa',ref:'mahasiswa',lab:mhsLabel},
+      {k:'id_asset',l:'Asset',ref:'asset',lab:a=>`${a.nama_asset} (jumlah ${a.jumlah})`},
+      {k:'jumlah',l:'Jumlah',t:'number',req:1,d:1},
+      {k:'status_peminjaman',l:'Status',o:['Pending','Dipinjam','Dikembalikan'],d:'Pending'},
+      {k:'tanggal_pinjam',l:'Tanggal pinjam',t:'date',req:1,d:today},
+      {k:'tanggal_kembali',l:'Tanggal kembali',t:'date',req:1},
+      {k:'keterangan',l:'Keterangan',t:'textarea',w:'col-12'}]
+  }
+};
+
+/* ---------- Helper API ---------- */
+async function api(path, {method='GET', body, q} = {}) {
+  const url = `${BASE_URL}/${path}` + (q ? '?' + new URLSearchParams(q) : '');
+  const res = await fetch(url, {method, headers: body ? {'Content-Type':'application/json'} : {}, body: body ? JSON.stringify(body) : undefined});
+  const txt = await res.text();
+  let j; try { j = JSON.parse(txt); } catch { j = {message: txt.slice(0, 200)}; }
+  const bad = !res.ok || j.success === false || j.status === false || ['error','failed','fail'].includes(j.status) || (typeof j.status === 'number' && j.status >= 400);
+  if (bad) throw new Error(j.message || j.error || `Permintaan gagal (HTTP ${res.status})`);
+  return j;
+}
+// Respons API dibaca fleksibel: array langsung, atau di dalam data/records/result
+const rows = j => {
+  if (Array.isArray(j)) return j;
+  for (const k of ['data','records','result','results']) if (Array.isArray(j?.[k])) return j[k];
+  return Object.values(j || {}).find(Array.isArray) || [];
+};
+const one = j => { let d = j?.data ?? j; if (Array.isArray(d)) d = d[0]; return d || {}; };
+
+/* ---------- State & tampilan ---------- */
+const cache = {asset:[], mahasiswa:[], peminjaman:[]};
+const err = {};
+let cur, editId = null;
+const fm = new bootstrap.Modal('#mForm'), dm = new bootstrap.Modal('#mDetail');
+
+function toast(msg, t='success') {
+  const d = document.createElement('div');
+  d.className = `alert alert-${t} shadow-sm py-2`;
+  d.textContent = msg;
+  $('#alerts').append(d);
+  setTimeout(() => d.remove(), 4500);
+}
+
+async function load(n) {
+  try { err[n] = ''; cache[n] = rows(await api(`${MOD[n].path}/read.php`)); }
+  catch (e) {
+    cache[n] = [];
+    err[n] = e.message === 'Failed to fetch' ? 'Tidak dapat terhubung ke API. Periksa koneksi internet atau pengaturan CORS server.' : e.message;
+  }
+}
+
+async function show(n) {
+  if (!MOD[n]) n = 'asset';
+  cur = n; const m = MOD[n];
+  document.querySelectorAll('#nav a').forEach(a => a.classList.toggle('active', a.dataset.n === n));
+  $('#title').textContent = m.title; $('#sub').textContent = m.sub;
+  $('#btnAdd').innerHTML = `<i class="bi bi-plus-lg me-1"></i>${m.add}`;
+  $('#q').value = '';
+  $('#tbl').innerHTML = '<div class="col-12 text-center py-5"><div class="spinner-border" style="color:var(--rose)"></div></div>';
+  await Promise.all([load(n), ...(n === 'peminjaman' ? [load('asset'), load('mahasiswa')] : [])]);
+  if (cur === n) draw();
+}
+
+function stats() {
+  const d = err[cur] ? [] : cache[cur];
+  $('#stats').innerHTML = MOD[cur].stats(d).map(([l, v]) => `<span class="chip"><b>${v}</b>${l}</span>`).join('');
+}
+
+function draw() {
+  const m = MOD[cur], q = $('#q').value.toLowerCase(); stats();
+  const note = (h, c = '') => { $('#tbl').innerHTML = `<div class="col-12"><div class="note ${c}">${h}</div></div>`; };
+  if (err[cur]) return note(`<i class="bi bi-exclamation-circle me-2"></i>${esc(err[cur])}`, 'text-danger');
+  const list = cache[cur].map((r, i) => [r, i]).filter(([r]) => JSON.stringify(r).toLowerCase().includes(q));
+  if (!list.length) return note(`<i class="bi bi-flower1 d-block fs-2 mb-2"></i>${q ? 'Data tidak ditemukan.' : `Belum ada data. Klik "${m.add}" untuk menambah.`}`);
+  const val = (c, r) => c[2] ? c[2](r) : esc(r[c[0]]);
+  const st = m.cols.find(c => c[0].includes('status'));
+  const meta = m.cols.slice(2).filter(c => c !== st);
+  const act = i => `<button class="btn-i" onclick="detail(${i})" title="Detail"><i class="bi bi-eye"></i></button>` +
+    (m.full ? `<button class="btn-i" onclick="openForm(${i})" title="Edit"><i class="bi bi-pencil"></i></button><button class="btn-i btn-i-red" onclick="del(${i})" title="Hapus"><i class="bi bi-trash3"></i></button>` : '');
+  $('#tbl').innerHTML = list.map(([r, i]) => {
+    const t = val(m.cols[0], r), p = t.replace(/<[^>]*>/g, '').trim();
+    const ini = p.split(/\s+/).slice(0, 2).map(w => w[0] || '').join('').toUpperCase();
+    return `<div class="col-md-6 col-xl-4"><article class="item">
+      <div class="d-flex align-items-start gap-3">
+        <span class="ava a${(p.charCodeAt(0) || 0) % 4}">${ini}</span>
+        <div class="flex-grow-1 mw0"><h2 class="item-t">${t}</h2><div class="item-s">${val(m.cols[1], r)}</div></div>
+        ${st ? val(st, r) : ''}
+      </div>
+      <dl class="meta">${meta.map(c => `<div${c[0] === 'keterangan' ? ' class="full"' : ''}><dt>${c[1]}</dt><dd>${val(c, r) || '-'}</dd></div>`).join('')}</dl>
+      <div class="item-act">${act(i)}</div></article></div>`;
+  }).join('');
+}
+
+/* ---------- Form tambah / edit ---------- */
+function field(f, v) {
+  let h;
+  if (f.ref) {
+    h = `<select class="form-select" name="${f.k}" required><option value="">Pilih...</option>` +
+      cache[f.ref].map(r => `<option value="${esc(rid(r))}"${rid(r) == v ? ' selected' : ''}>${esc(f.lab(r))}</option>`).join('') + '</select>';
+  } else if (f.t === 'textarea') {
+    h = `<textarea class="form-control" name="${f.k}" rows="2">${esc(v)}</textarea>`;
+  } else {
+    if (f.t === 'date') v = String(v ?? '').slice(0, 10);
+    h = `<input class="form-control" type="${f.t || 'text'}" name="${f.k}" value="${esc(v)}"${f.req ? ' required' : ''}${f.t === 'number' ? ' min="0"' : ''}${f.o ? ` list="dl_${f.k}"` : ''}>` +
+      (f.o ? `<datalist id="dl_${f.k}">${f.o.map(o => `<option value="${o}">`).join('')}</datalist>` : '');
+  }
+  return `<div class="${f.w || 'col-md-6'}"><label class="form-label">${f.l}${f.req || f.ref ? ' <span class="text-danger">*</span>' : ''}</label>${h}</div>`;
+}
+
+function openForm(i) {
+  const m = MOD[cur], r = i == null ? null : cache[cur][i];
+  editId = r ? (r[m.idKey] ?? r.id) : null;
+  $('#fTitle').textContent = (r ? 'Edit ' : 'Tambah ') + m.noun;
+  $('#fBody').innerHTML = m.fields.map(f => field(f, r ? r[f.k] : f.d)).join('');
+  fm.show();
+}
+
+$('#form').onsubmit = async e => {
+  e.preventDefault();
+  const m = MOD[cur], fd = new FormData(e.target), body = {};
+  m.fields.forEach(f => { const v = fd.get(f.k); body[f.k] = (f.t === 'number' || f.ref) ? (v === '' ? null : Number(v)) : v; });
+  if (editId != null) body[m.idKey] = isNaN(editId) ? editId : Number(editId);
+  const b = $('#btnSave'); b.disabled = true;
+  try {
+    const j = await api(`${m.path}/${editId != null ? 'update' : 'create'}.php`, {method:'POST', body});
+    fm.hide(); toast(j.message || 'Data berhasil disimpan.');
+    await load(cur); draw();
+  } catch (x) { toast(x.message, 'danger'); }
+  finally { b.disabled = false; }
+};
+
+/* ---------- Hapus & detail ---------- */
+async function del(i) {
+  const m = MOD[cur], r = cache[cur][i], id = r[m.idKey] ?? r.id;
+  if (!confirm(`Hapus ${m.noun} ini?`)) return;
+  try {
+    const j = await api(`${m.path}/delete.php`, {method:'DELETE', q:{[m.idKey]: id}});
+    toast(j.message || 'Data berhasil dihapus.');
+    await load(cur); draw();
+  } catch (x) { toast(x.message, 'danger'); }
+}
+
+async function detail(i) {
+  const m = MOD[cur], r = cache[cur][i], id = r[m.idKey] ?? r.id;
+  let d = r;
+  try { const x = one(await api(`${m.path}/detail.php`, {q:{[m.idKey]: id}})); if (Object.keys(x).length) d = x; } catch (e) {}
+  $('#dTitle').textContent = 'Detail ' + m.noun;
+  $('#dBody').innerHTML = '<table class="table table-sm mb-0">' +
+    Object.entries(d).map(([k, v]) => `<tr><th class="text-secondary fw-normal" style="width:40%">${esc(k.replace(/_/g, ' '))}</th><td>${esc(v)}</td></tr>`).join('') + '</table>';
+  dm.show();
+}
+
+/* ---------- Mulai ---------- */
+$('#nav').innerHTML = Object.entries(MOD).map(([k, m]) => `<a data-n="${k}" href="#${k}"><i class="bi ${m.icon}"></i><span>${m.noun}</span></a>`).join('');
+$('#base').textContent = BASE_URL;
+$('#q').oninput = draw;
+$('#btnRefresh').onclick = () => show(cur);
+$('#btnAdd').onclick = () => openForm();
+window.onhashchange = () => { show(location.hash.slice(1)); };
+show(location.hash.slice(1));
+</script>
 </body>
 </html>
